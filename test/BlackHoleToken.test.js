@@ -1,34 +1,76 @@
+import ether from './helpers/ether';
 const BigNumber = web3.BigNumber;
 
-const BlackHomeToken = artifacts.require('BlackHomeToken');
-
 require('chai')
+  .use(require('chai-as-promised'))
   .use(require('chai-bignumber')(BigNumber))
   .should();
 
-contract('BlackHomeToken', accounts => {
-  const _name = 'Dapp Token';
-  const _symbol = 'DAPP';
-  const _decimals = 18;
+const BlackHoleToken = artifacts.require('BlackHoleToken');
+const BlackHoleTokenCrowdsale = artifacts.require('BlackHoleTokenCrowdsale');
+
+contract('BlackHoleTokenCrowdsale', function([_, wallet, investor1, investor2]) {
 
   beforeEach(async function () {
-    this.token = await BlackHomeToken.new(_name, _symbol, _decimals);
+    // Token config
+    this.name = "BlackHoleToken";
+    this.symbol = "BlackHole";
+    this.decimals = 18;
+
+    // Deploy Token
+    this.token = await BlackHoleToken.new(
+      this.name,
+      this.symbol,
+      this.decimals
+    );
+
+    // Crowdsale config
+    this.rate = 500;
+    this.wallet = wallet;
+
+    this.crowdsale = await BlackHoleTokenCrowdsale.new(
+      this.rate,
+      this.wallet,
+      this.token.address
+    );
+
+   // Transfer token ownership to crowdsale
+    await this.token.transferOwnership(this.crowdsale.address);
   });
 
-  describe('token attributes', function() {
-    it('has the correct name', async function() {
-      const name = await this.token.name();
-      name.should.equal(_name);
+  describe('crowdsale', function() {
+    it('tracks the rate', async function() {
+      const rate = await this.crowdsale.rate();
+      rate.should.be.bignumber.equal(this.rate);
     });
 
-    it('has the correct symbol', async function() {
-      const symbol = await this.token.symbol();
-      symbol.should.equal(_symbol);
+    it('tracks the wallet', async function() {
+      const wallet = await this.crowdsale.wallet();
+      wallet.should.equal(this.wallet);
     });
 
-    it('has the correct decimals', async function() {
-      const decimals = await this.token.decimals();
-      decimals.should.be.bignumber.equal(_decimals);
+    it('tracks the token', async function() {
+      const token = await this.crowdsale.token();
+      token.should.equal(this.token.address);
     });
   });
-});
+
+  describe('minted crowdsale', function() {
+    it('mints tokens after purchase', async function() {
+      const originalTotalSupply = await this.token.totalSupply();
+      await this.crowdsale.sendTransaction({ value: ether(1), from: investor1 });
+      const newTotalSupply = await this.token.totalSupply();
+      assert.isTrue(newTotalSupply > originalTotalSupply);
+    });
+  });
+
+  describe('accepting payments', function() {
+    it('should accept payments', async function() {
+      const value = ether(1);
+      const purchaser = investor2;
+      await this.crowdsale.sendTransaction({ value: value, from: investor1 }).should.be.fulfilled;
+      await this.crowdsale.buyTokens(investor1, { value: value, from: purchaser }).should.be.fulfilled;
+    });
+  });
+  
+})

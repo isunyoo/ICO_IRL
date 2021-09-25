@@ -27,20 +27,16 @@ module.exports = {
       network_id: 3
     }
   },
-  compilers: {
-    external: {
-      command: "./node_modules/.bin/truffle",
-      targets: [{
-        path: "./artifacts/*.json"
-      }]
-    },
-    // solc: {
-    //   // version: "0.5.1",    // Fetch exact version from solc-bin (default: truffle's version)            
-    //   optimizer: {
-    //     enabled: true,
-    //     runs: 200
-    //   }
-    // }
+  compilers: {    
+    solc: {      
+      version: "^0.4.24",     // Fetch exact version from solc-bin (default: truffle's version) 
+      docker: false,
+      parser: "solcjs",
+      optimizer: {
+        enabled: true,
+        runs: 200
+      }
+    }
   }
 };
 

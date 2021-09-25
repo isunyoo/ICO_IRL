@@ -1,4 +1,6 @@
-// pragma solidity 0.4.24;
+// contracts/Box.sol
+// SPDX-License-Identifier: MIT
+pragma solidity >0.4.24;
 
 // import "openzeppelin-solidity/contracts/token/ERC20/DetailedERC20.sol";
 // import "openzeppelin-solidity/contracts/token/ERC20/StandardToken.sol";
@@ -11,11 +13,6 @@
 
 //     }
 // }
-
-// contracts/Box.sol
-// SPDX-License-Identifier: MIT
-// pragma solidity ^0.8.0;
-pragma solidity 0.4.24;
 
 import "openzeppelin-solidity/contracts/token/ERC20/MintableToken.sol";
 import "openzeppelin-solidity/contracts/token/ERC20/PausableToken.sol";
