@@ -28,15 +28,19 @@ module.exports = {
     }
   },
   compilers: {
-    solc: {
-      // version: "0.5.1",    // Fetch exact version from solc-bin (default: truffle's version)      
-      version: "0.5.4",  
-      optimizer: {
-        enabled: true,
-        runs: 200
-      }
-    }
+    external: {
+      command: "./node_modules/.bin/truffle",
+      targets: [{
+        path: "./artifacts/*.json"
+      }]
+    },
+    // solc: {
+    //   // version: "0.5.1",    // Fetch exact version from solc-bin (default: truffle's version)            
+    //   optimizer: {
+    //     enabled: true,
+    //     runs: 200
+    //   }
+    // }
   }
 };
-
 

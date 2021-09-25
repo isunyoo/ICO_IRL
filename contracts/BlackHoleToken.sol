@@ -1,23 +1,9 @@
-pragma solidity 0.4.24;
-
-import "openzeppelin-solidity/contracts/token/ERC20/DetailedERC20.sol";
-import "openzeppelin-solidity/contracts/token/ERC20/StandardToken.sol";
-
-contract BlackHoleToken is StandardToken, DetailedERC20 {
-    constructor(string _name, string _symbol, uint8 _decimals)
-        DetailedERC20(_name, _symbol, _decimals)
-        public
-    {
-
-    }
-}
-
 // pragma solidity 0.4.24;
 
-// import "openzeppelin-solidity/contracts/token/ERC20/MintableToken.sol";
-// import "openzeppelin-solidity/contracts/token/ERC20/PausableToken.sol";
+// import "openzeppelin-solidity/contracts/token/ERC20/DetailedERC20.sol";
+// import "openzeppelin-solidity/contracts/token/ERC20/StandardToken.sol";
 
-// contract BlackHoleToken is MintableToken, PausableToken, DetailedERC20 {
+// contract BlackHoleToken is StandardToken, DetailedERC20 {
 //     constructor(string _name, string _symbol, uint8 _decimals)
 //         DetailedERC20(_name, _symbol, _decimals)
 //         public
@@ -25,3 +11,21 @@ contract BlackHoleToken is StandardToken, DetailedERC20 {
 
 //     }
 // }
+
+// contracts/Box.sol
+// SPDX-License-Identifier: MIT
+// pragma solidity ^0.8.0;
+pragma solidity 0.4.24;
+
+import "openzeppelin-solidity/contracts/token/ERC20/MintableToken.sol";
+import "openzeppelin-solidity/contracts/token/ERC20/PausableToken.sol";
+import "openzeppelin-solidity/contracts/token/ERC20/DetailedERC20.sol";
+
+contract BlackHoleToken is MintableToken, PausableToken, DetailedERC20 {
+    constructor(string _name, string _symbol, uint8 _decimals)
+        DetailedERC20(_name, _symbol, _decimals)
+        public
+    {
+
+    }
+}
