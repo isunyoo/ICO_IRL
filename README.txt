@@ -10,9 +10,9 @@ $ ./node_modules/.bin/truffle version
 Truffle v4.1.11 (core: 4.1.11)
 Solidity v0.4.24 (solc-js)
 
-$ truffle compile
-$ truffle test
+$ truffle compile 
+$ truffle test 
 $ truffle migrate --reset --compile-all --network development
-
+$ truffle migrate --network ropsten
 
 

@@ -4,17 +4,13 @@ require('dotenv').config();
 const HDWalletProvider = require('truffle-hdwallet-provider');
 
 module.exports = {
+  presets: ['@babel/preset-env'],
   networks: {
     development: {
       host: 'localhost',
       port: 8545,
       network_id: '4447', // eslint-disable-line camelcase
-    },
-    ganache: {
-      host: 'localhost',
-      port: 8545,
-      network_id: '4447', // eslint-disable-line camelcase
-    },
+    },    
     ropsten: {
       provider: function() {
         return new HDWalletProvider(
@@ -35,7 +31,7 @@ module.exports = {
       optimizer: {
         enabled: true,
         runs: 200
-      }
+      },      
     }
   }
 };
